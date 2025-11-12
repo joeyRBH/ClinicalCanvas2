@@ -20,7 +20,24 @@ function initAuth() {
     const loginForm = document.getElementById('login-form');
     const authContainer = document.getElementById('auth-container');
     const appContainer = document.getElementById('app-container');
+// TEMPORARY BYPASS: Auto-login for development
+const BYPASS_LOGIN = true;
 
+if (BYPASS_LOGIN) {
+    AppState.token = 'demo-token-bypass';
+    AppState.user = {
+        id: 1,
+        username: 'admin',
+        email: 'admin@healthcanvas.com',
+        fullName: 'Admin User',
+        role: 'admin'
+    };
+    localStorage.setItem('healthcanvas_token', AppState.token);
+    showApp();
+    loadUserData();
+    loadDashboard();
+    return;
+}
     // Check for existing session
     const token = localStorage.getItem('healthcanvas_token');
     if (token) {
