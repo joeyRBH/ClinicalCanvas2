@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HealthCanvas - HIPAA-compliant EHR and Practice Management System">
+    <title>HealthCanvas - Practice Management EHR</title>
+
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Google Fonts - ClinicalCanvas fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Stripe.js -->
+    <script src="https://js.stripe.com/v3/" defer></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Authentication Container (Initially visible) -->
+    <div id="auth-container" class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <i class="fas fa-heartbeat auth-icon"></i>
+                <h2>HealthCanvas</h2>
+                <p class="auth-subtitle">Healthcare Practice Management EHR</p>
+            </div>
+
+            <form id="login-form" class="auth-form">
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required placeholder="your@email.com">
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required placeholder="Enter password">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-large">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Sign In
+                </button>
+
+                <p class="auth-footer">
+                    <a href="#" id="forgot-password">Forgot password?</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Application Container (Hidden until authenticated) -->
+    <div id="app-container" class="app-container" style="display: none;">
+        <!-- Top Navigation Bar -->
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="navbar-brand">
+                    <i class="fas fa-heartbeat"></i>
+                    <span class="brand-name">HealthCanvas</span>
+                </div>
+
+                <div class="navbar-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search clients, appointments..." class="search-input" id="global-search">
+                </div>
+
+                <div class="navbar-actions">
+                    <button class="nav-btn" title="Notifications" id="notifications-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge" id="notifications-count">0</span>
+                    </button>
+                    <button class="nav-btn" title="Messages" id="messages-btn">
+                        <i class="fas fa-envelope"></i>
+                        <span class="badge" id="messages-count">0</span>
+                    </button>
+                    <div class="user-menu" id="user-menu">
+                        <div class="user-avatar" id="user-avatar">DS</div>
+                        <span class="user-name" id="user-name">Loading...</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="user-dropdown" id="user-dropdown" style="display: none;">
+                        <a href="#profile"><i class="fas fa-user"></i> Profile</a>
+                        <a href="#settings"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="main-container">
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar">
+                <ul class="sidebar-menu">
+                    <li class="menu-item active" data-section="dashboard">
+                        <a href="#dashboard">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="menu-item" data-section="calendar">
+                        <a href="#calendar">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Calendar</span>
+                        </a>
+                    </li>
+                    <li class="menu-item" data-section="appointments">
+                        <a href="#appointments">
+                            <i class="fas fa-clock"></i>
+                            <span>Appointments</span>
+                        </a>
+                    </li>
+                    <li class="menu-item" data-section="clients">
+                        <a href="#clients">
+                            <i class="fas fa-users"></i>
+                            <span>Clients</span>
+                        </a>
+                    </li>
+                    <li class="menu-item" data-section="clinical-notes">
+                        <a href="#clinical-notes">
+                            <i class="fas fa-file-medical"></i>
+                            <span>Clinical Notes</span>
+                        </a>
+                    </li>
+                    <li class="menu-item" data-section="telehealth">
+                        <a href="#telehealth">
+                            <i class="fas fa-video"></i>
+                            <span>Telehealth</span>
+                        </a>
+                    </li>
+                    <li class="menu-item" data-section="messaging">
+                        <a href="#messaging">
+                            <i class="fas fa-comments"></i>
+                            <span>Messaging</span>
+                        </a>
+                    </li>
+                    <li class="menu-item" data-section="documents">
+                        <a href="#documents">
+                            <i class="fas fa-folder-open"></i>
+                            <span>Documents</span>
+                        </a>
+                    </li>
+                    <li class="menu-item" data-section="billing">
+                        <a href="#billing">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            <span>Billing</span>
+                        </a>
+                    </li>
+                    <li class="menu-item" data-section="reports">
+                        <a href="#reports">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                    <li class="menu-item" data-section="settings">
+                        <a href="#settings">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="content">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="content-section active">
+                    <div class="content-header">
+                        <h2>Dashboard</h2>
+                        <button class="btn btn-primary" id="quick-add-btn">
+                            <i class="fas fa-plus"></i>
+                            Quick Add
+                        </button>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: #2C5F8D;">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>Today's Appointments</h3>
+                                <p class="stat-number" id="stat-appointments">0</p>
+                                <span class="stat-label">Scheduled</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: #5EAE91;">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>Active Clients</h3>
+                                <p class="stat-number" id="stat-clients">0</p>
+                                <span class="stat-label">Total active</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: #E8A547;">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>Unread Messages</h3>
+                                <p class="stat-number" id="stat-messages">0</p>
+                                <span class="stat-label">Need response</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: #10B981;">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>Weekly Revenue</h3>
+                                <p class="stat-number" id="stat-revenue">$0</p>
+                                <span class="stat-label">This week</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Today's Schedule -->
+                    <div class="dashboard-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Today's Schedule</h3>
+                                <button class="btn btn-sm btn-secondary" id="view-full-calendar">
+                                    View Calendar
+                                </button>
+                            </div>
+                            <div class="card-content" id="today-schedule">
+                                <!-- Appointments will be loaded here -->
+                                <div class="loading-state">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    Loading appointments...
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Recent Activity</h3>
+                            </div>
+                            <div class="card-content" id="recent-activity">
+                                <!-- Activity feed will be loaded here -->
+                                <div class="loading-state">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    Loading activity...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Other sections will be added in app.js dynamically -->
+                <section id="calendar" class="content-section" style="display: none;">
+                    <div class="content-header">
+                        <h2>Calendar</h2>
+                    </div>
+                    <div class="section-placeholder">
+                        <i class="fas fa-calendar-alt"></i>
+                        <p>Calendar view loading...</p>
+                    </div>
+                </section>
+
+                <section id="appointments" class="content-section" style="display: none;">
+                    <div class="content-header">
+                        <h2>Appointments</h2>
+                        <button class="btn btn-primary" id="new-appointment-btn">
+                            <i class="fas fa-plus"></i>
+                            New Appointment
+                        </button>
+                    </div>
+
+                    <!-- Filter Bar -->
+                    <div class="filter-bar" style="display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;">
+                        <input type="date" id="appointment-date-filter" class="input" style="width: 200px; margin: 0; padding: 10px;">
+                        <select id="appointment-status-filter" class="input" style="width: 150px; margin: 0; padding: 10px;">
+                            <option value="">All Statuses</option>
+                            <option value="scheduled">Scheduled</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                        <select id="appointment-modality-filter" class="input" style="width: 150px; margin: 0; padding: 10px;">
+                            <option value="">All Types</option>
+                            <option value="in-person">In-Person</option>
+                            <option value="telehealth">Telehealth</option>
+                        </select>
+                        <button class="btn btn-secondary" id="clear-filters">
+                            <i class="fas fa-times"></i>
+                            Clear
+                        </button>
+                    </div>
+
+                    <!-- Appointments List -->
+                    <div id="appointments-list">
+                        <div class="loading-state">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            Loading appointments...
+                        </div>
+                    </div>
+                </section>
+
+                <section id="clients" class="content-section" style="display: none;">
+                    <div class="content-header">
+                        <h2>Clients</h2>
+                        <button class="btn btn-primary" id="new-client-btn">
+                            <i class="fas fa-plus"></i>
+                            New Client
+                        </button>
+                    </div>
+
+                    <!-- Search Bar -->
+                    <div class="search-bar" style="margin-bottom: 24px;">
+                        <div style="position: relative; max-width: 500px;">
+                            <i class="fas fa-search" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-tertiary);"></i>
+                            <input type="text" id="client-search" class="input" placeholder="Search clients by name, email, or phone..." style="padding-left: 48px; margin: 0; width: 100%;">
+                        </div>
+                    </div>
+
+                    <!-- Clients Table -->
+                    <div class="card" style="overflow-x: auto;">
+                        <table id="clients-table" style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--border-color); background: var(--background-color);">
+                                    <th style="padding: 16px; text-align: left; font-weight: 600; color: var(--text-primary);">Name</th>
+                                    <th style="padding: 16px; text-align: left; font-weight: 600; color: var(--text-primary);">Email</th>
+                                    <th style="padding: 16px; text-align: left; font-weight: 600; color: var(--text-primary);">Phone</th>
+                                    <th style="padding: 16px; text-align: left; font-weight: 600; color: var(--text-primary);">DOB</th>
+                                    <th style="padding: 16px; text-align: left; font-weight: 600; color: var(--text-primary);">Added</th>
+                                    <th style="padding: 16px; text-align: center; font-weight: 600; color: var(--text-primary);">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clients-table-body">
+                                <tr>
+                                    <td colspan="6" class="loading-state">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                        Loading clients...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="clinical-notes" class="content-section" style="display: none;">
+                    <div class="content-header">
+                        <h2>Clinical Notes</h2>
+                    </div>
+                    <div class="section-placeholder">
+                        <i class="fas fa-file-medical"></i>
+                        <p>Clinical notes loading...</p>
+                    </div>
+                </section>
+
+                <section id="telehealth" class="content-section" style="display: none;">
+                    <div class="content-header">
+                        <h2>Telehealth</h2>
+                    </div>
+                    <div class="section-placeholder">
+                        <i class="fas fa-video"></i>
+                        <p>Telehealth interface loading...</p>
+                    </div>
+                </section>
+
+                <section id="messaging" class="content-section" style="display: none;">
+                    <div class="content-header">
+                        <h2>Messaging</h2>
+                    </div>
+                    <div class="section-placeholder">
+                        <i class="fas fa-comments"></i>
+                        <p>Messages loading...</p>
+                    </div>
+                </section>
+
+                <section id="documents" class="content-section" style="display: none;">
+                    <div class="content-header">
+                        <h2>Documents</h2>
+                    </div>
+                    <div class="section-placeholder">
+                        <i class="fas fa-folder-open"></i>
+                        <p>Documents loading...</p>
+                    </div>
+                </section>
+
+                <section id="billing" class="content-section" style="display: none;">
+                    <div class="content-header">
+                        <h2>Billing & Payments</h2>
+                    </div>
+                    <div class="section-placeholder">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <p>Billing dashboard loading...</p>
+                    </div>
+                </section>
+
+                <section id="reports" class="content-section" style="display: none;">
+                    <div class="content-header">
+                        <h2>Reports & Analytics</h2>
+                    </div>
+                    <div class="section-placeholder">
+                        <i class="fas fa-chart-bar"></i>
+                        <p>Reports loading...</p>
+                    </div>
+                </section>
+
+                <section id="settings" class="content-section" style="display: none;">
+                    <div class="content-header">
+                        <h2>Settings</h2>
+                    </div>
+                    <div class="section-placeholder">
+                        <i class="fas fa-cog"></i>
+                        <p>Settings loading...</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Loading...</p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
