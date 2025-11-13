@@ -21,7 +21,7 @@ function initAuth() {
     const authContainer = document.getElementById('auth-container');
     const appContainer = document.getElementById('app-container');
 // TEMPORARY BYPASS: Auto-login for development
-const BYPASS_LOGIN = false;
+const BYPASS_LOGIN = true;
 
 if (BYPASS_LOGIN) {
     AppState.token = 'demo-token-bypass';
