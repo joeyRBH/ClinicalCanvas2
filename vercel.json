@@ -11,6 +11,14 @@
       "destination": "/public/styles.css"
     },
     {
+      "source": "/database-setup.html",
+      "destination": "/public/database-setup.html"
+    },
+    {
+      "source": "/setup.html",
+      "destination": "/public/setup.html"
+    },
+    {
       "source": "/",
       "destination": "/public/index.html"
     }
