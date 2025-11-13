@@ -20,24 +20,7 @@ function initAuth() {
     const loginForm = document.getElementById('login-form');
     const authContainer = document.getElementById('auth-container');
     const appContainer = document.getElementById('app-container');
-// TEMPORARY BYPASS: Auto-login for development
-const BYPASS_LOGIN = false;
 
-if (BYPASS_LOGIN) {
-    AppState.token = 'demo-token-bypass';
-    AppState.user = {
-        id: 1,
-        username: 'admin',
-        email: 'admin@healthcanvas.com',
-        fullName: 'Admin User',
-        role: 'admin'
-    };
-    localStorage.setItem('healthcanvas_token', AppState.token);
-    showApp();
-    loadUserData();
-    loadDashboard();
-    return;
-}
     // Check for existing session
     const token = localStorage.getItem('healthcanvas_token');
     if (token) {
@@ -57,7 +40,7 @@ if (BYPASS_LOGIN) {
             showLoading('Signing in...');
 
             try {
-                const response = await fetch(`${API_BASE}/api/provider-auth`, {
+                const response = await fetch(`${API_BASE}/api/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
@@ -66,19 +49,19 @@ if (BYPASS_LOGIN) {
                 const data = await response.json();
                 hideLoading();
 
-                if (data.success && data.token) {
+                if (data.success || data.token) {
                     AppState.token = data.token;
                     AppState.user = data.user;
                     localStorage.setItem('healthcanvas_token', data.token);
                     showApp();
                     loadDashboard();
                 } else {
-                    alert('Login failed: ' + (data.error || 'Invalid credentials'));
+                    alert('Login failed: ' + (data.error || 'Unknown error'));
                 }
             } catch (error) {
                 hideLoading();
                 console.error('Login error:', error);
-                alert('Login error: Unable to connect to server');
+                alert('Login error: ' + error.message);
             }
         });
     }
@@ -110,20 +93,10 @@ async function loadUserData() {
     const userName = document.getElementById('user-name');
     const userAvatar = document.getElementById('user-avatar');
 
-    if (AppState.user && AppState.user.fullName) {
-        // Use authenticated user data
-        if (userName) userName.textContent = AppState.user.fullName;
-        if (userAvatar) {
-            // Create initials from full name
-            const names = AppState.user.fullName.split(' ');
-            const initials = names.map(n => n[0]).join('').substring(0, 2).toUpperCase();
-            userAvatar.textContent = initials;
-        }
-    } else {
-        // Fallback or fetch from API
-        if (userName) userName.textContent = 'User';
-        if (userAvatar) userAvatar.textContent = 'U';
-    }
+    // For now, use placeholder data
+    // In production, this would call /api/user-profile
+    if (userName) userName.textContent = 'Dr. Smith';
+    if (userAvatar) userAvatar.textContent = 'DS';
 }
 
 // ==========================================
