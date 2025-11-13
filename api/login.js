@@ -65,16 +65,16 @@ export default async function handler(req, res) {
 
     const user = userResult.data[0];
 
-    // Check if account is active
-    if (!user.isActive) {
+    // Check if account is active (database uses snake_case: is_active)
+    if (!user.is_active) {
       return res.status(403).json({
         error: 'Account disabled',
         message: 'Your account has been disabled. Please contact support.'
       });
     }
 
-    // Verify password
-    const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
+    // Verify password (database uses snake_case: password_hash)
+    const isPasswordValid = await bcrypt.compare(password, user.password_hash);
 
     if (!isPasswordValid) {
       return res.status(401).json({
@@ -117,7 +117,7 @@ export default async function handler(req, res) {
         id: user.id,
         username: user.username,
         email: user.email,
-        fullName: user.fullName,
+        fullName: user.full_name,
         role: user.role
       },
       message: 'Login successful'
