@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthCanvas Setup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .setup-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #2C5F8D;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #64748B;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .info-box {
+            background: #EFF6FF;
+            border-left: 4px solid #3B82F6;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .info-box h3 {
+            color: #1E40AF;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .info-box p {
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        button {
+            width: 100%;
+            background: #2C5F8D;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #234A6F;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(44, 95, 141, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background: #94A3B8;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .result.success {
+            background: #D1FAE5;
+            border: 1px solid #10B981;
+            color: #065F46;
+            display: block;
+        }
+
+        .result.error {
+            background: #FEE2E2;
+            border: 1px solid #EF4444;
+            color: #991B1B;
+            display: block;
+        }
+
+        .credentials {
+            background: #FEF3C7;
+            border: 2px solid #F59E0B;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .credentials.show {
+            display: block;
+        }
+
+        .credentials h3 {
+            color: #92400E;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .credential-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #FCD34D;
+        }
+
+        .credential-item:last-child {
+            border-bottom: none;
+        }
+
+        .credential-label {
+            color: #78350F;
+            font-weight: 600;
+        }
+
+        .credential-value {
+            color: #92400E;
+            font-family: monospace;
+            font-size: 15px;
+        }
+
+        .warning {
+            background: #FEE2E2;
+            border-left: 4px solid #DC2626;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #991B1B;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #2C5F8D;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .loading.show {
+            display: flex;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #2C5F8D;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="setup-container">
+        <h1>🚀 HealthCanvas Setup</h1>
+        <p class="subtitle">First-time database initialization</p>
+
+        <div class="info-box">
+            <h3>What does this do?</h3>
+            <p>This will create the default admin account in your database. You only need to do this once.</p>
+        </div>
+
+        <button id="setupBtn" onclick="createAdmin()">Create Admin Account</button>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <span>Creating admin account...</span>
+        </div>
+
+        <div class="result" id="result"></div>
+
+        <div class="credentials" id="credentials">
+            <h3>✅ Admin Account Created!</h3>
+            <div class="credential-item">
+                <span class="credential-label">Username:</span>
+                <span class="credential-value">admin</span>
+            </div>
+            <div class="credential-item">
+                <span class="credential-label">Email:</span>
+                <span class="credential-value">admin@healthcanvas.com</span>
+            </div>
+            <div class="credential-item">
+                <span class="credential-label">Password:</span>
+                <span class="credential-value">admin123</span>
+            </div>
+            <div class="warning">
+                ⚠️ <strong>Important:</strong> Change this password immediately after your first login!
+            </div>
+        </div>
+
+        <a href="/" class="back-link">← Back to Login</a>
+    </div>
+
+    <script>
+        async function createAdmin() {
+            const btn = document.getElementById('setupBtn');
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+            const credentials = document.getElementById('credentials');
+
+            // Reset UI
+            btn.disabled = true;
+            loading.classList.add('show');
+            result.style.display = 'none';
+            credentials.classList.remove('show');
+
+            try {
+                const response = await fetch('/api/setup-admin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                loading.classList.remove('show');
+
+                if (data.success) {
+                    result.className = 'result success';
+                    result.textContent = data.message;
+                    result.style.display = 'block';
+                    credentials.classList.add('show');
+                    btn.textContent = 'Admin Account Created ✓';
+
+                    // Show redirect message after 3 seconds
+                    setTimeout(() => {
+                        result.textContent = data.message + ' - You can now login!';
+                    }, 2000);
+                } else {
+                    result.className = 'result error';
+                    result.textContent = 'Error: ' + (data.error || 'Unknown error occurred');
+                    result.style.display = 'block';
+                    btn.disabled = false;
+                    btn.textContent = 'Try Again';
+                }
+            } catch (error) {
+                loading.classList.remove('show');
+                result.className = 'result error';
+                result.textContent = 'Network error: ' + error.message;
+                result.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Try Again';
+            }
+        }
+    </script>
+</body>
+</html>
