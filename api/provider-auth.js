@@ -5,11 +5,12 @@ const { initDatabase, executeQuery } = require('./utils/database-connection');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const { withRateLimit, rateLimitPresets } = require('./utils/rate-limit');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 const SESSION_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   // CORS headers
   res.setHeader('Access-Control-Allow-Credentials', true);
   const allowedOrigin = process.env.APP_URL || req.headers.origin || '*';
@@ -205,3 +206,6 @@ export default async function handler(req, res) {
     });
   }
 }
+
+// Export with rate limiting (5 requests per 15 minutes for auth endpoints)
+export default withRateLimit(handler, rateLimitPresets.auth);
