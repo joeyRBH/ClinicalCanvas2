@@ -1,6 +1,7 @@
 {
   "name": "healthcanvas",
   "version": "1.0.0",
+  "type": "module",
   "description": "HealthCanvas - Healthcare Practice Management EHR with Modern UI",
   "main": "public/index.html",
   "scripts": {
