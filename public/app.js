@@ -1,5 +1,5 @@
 // ==========================================
-// HealthCanvas - Main Application
+// ClinicalCanvas - Main Application
 // ==========================================
 
 // Global State

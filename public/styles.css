@@ -1,11 +1,11 @@
 /* ==========================================
-   HealthCanvas - Unified Design System
-   Colors: HealthHub (Professional)
-   Fonts: ClinicalCanvas (Modern)
+   ClinicalCanvas - Unified Design System
+   Professional Healthcare Color Palette
+   Modern Typography & Components
    ========================================== */
 
 :root {
-    /* HealthHub Color Palette */
+    /* ClinicalCanvas Color Palette */
     --primary-color: #2C5F8D;
     --primary-hover: #234A6F;
     --primary-light: #3B7DAF;
