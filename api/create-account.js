@@ -1,8 +1,12 @@
 // Create Account API Endpoint with Stripe Subscription
 // Handles new user signup with subscription plan selection
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const { initDatabase, executeQuery } = require('./utils/database-connection');
+import Stripe from 'stripe';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { initDatabase, executeQuery } from './utils/database-connection.js';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(req, res) {
   // CORS headers - restrict to app domain for security
@@ -164,10 +168,8 @@ export default async function handler(req, res) {
       });
     }
 
-    // Hash password (in production, use bcrypt)
-    // For now, we'll use a simple hash (REPLACE WITH BCRYPT IN PRODUCTION)
-    const crypto = require('crypto');
-    const passwordHash = crypto.createHash('sha256').update(password).digest('hex');
+    // Hash password securely with bcrypt
+    const passwordHash = await bcrypt.hash(password, 10);
 
     // Create user in database
     const userResult = await executeQuery(
@@ -213,10 +215,23 @@ export default async function handler(req, res) {
       trialEnds: new Date(subscription.trial_end * 1000)
     });
 
+    // Generate JWT token for immediate login
+    const token = jwt.sign(
+      {
+        userId: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role
+      },
+      process.env.JWT_SECRET || 'default-secret-change-in-production',
+      { expiresIn: '7d' }
+    );
+
     // Return success
     return res.status(201).json({
       success: true,
       message: 'Account created successfully',
+      token: token, // JWT token for authentication
       user: {
         id: user.id,
         username: user.username,
