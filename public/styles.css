@@ -777,3 +777,90 @@ button {
 .p-sm { padding: var(--spacing-sm); }
 .p-md { padding: var(--spacing-md); }
 .p-lg { padding: var(--spacing-lg); }
+
+/* ==========================================
+   Footer Styles
+   ========================================== */
+
+.app-footer {
+    background: var(--background-secondary);
+    border-top: 1px solid var(--border-color);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    margin-top: auto;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    text-align: center;
+}
+
+.footer-content p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.footer-links {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.footer-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}
+
+.footer-separator {
+    color: var(--text-secondary);
+    user-select: none;
+}
+
+@media (max-width: 768px) {
+    .app-footer {
+        padding: var(--spacing-md);
+    }
+
+    .footer-links {
+        font-size: 0.8rem;
+    }
+}
+
+/* Auth page legal links */
+.auth-legal-links {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    font-size: 0.8rem;
+}
+
+.auth-legal-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.auth-legal-links a:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}
+
+.auth-legal-links span {
+    color: var(--text-secondary);
+    margin: 0 var(--spacing-xs);
+}
