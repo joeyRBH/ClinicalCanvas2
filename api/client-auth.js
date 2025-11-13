@@ -1,11 +1,11 @@
 // Client Portal Authentication API
 // Handles client login, logout, and session management
 
-const { initDatabase, executeQuery } = require('./utils/database-connection');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
-const { withRateLimit, rateLimitPresets } = require('./utils/rate-limit');
+import { initDatabase, executeQuery } from './utils/database-connection.js';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+import { withRateLimit, rateLimitPresets } from './utils/rate-limit.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 const SESSION_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days

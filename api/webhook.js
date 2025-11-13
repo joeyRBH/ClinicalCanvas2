@@ -1,7 +1,7 @@
 // Stripe Webhook Handler for Vercel
 // This handles Stripe webhook events for payment confirmations
 
-const { initDatabase, executeTransaction, getSqlClient } = require('./utils/database-connection');
+import { initDatabase, executeTransaction, getSqlClient } from './utils/database-connection.js';
 
 export default async function handler(req, res) {
   // Only allow POST requests

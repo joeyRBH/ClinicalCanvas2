@@ -1,5 +1,7 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const { initDatabase, executeQuery } = require('./utils/database-connection');
+import Stripe from 'stripe';
+import { initDatabase, executeQuery } from './utils/database-connection.js';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {

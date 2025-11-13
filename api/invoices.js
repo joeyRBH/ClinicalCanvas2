@@ -1,7 +1,7 @@
 // Invoices API Endpoint
 // Manages invoices with database integration
 
-const { initDatabase, executeQuery, isDatabaseConnected } = require('./utils/database-connection');
+import { initDatabase, executeQuery, isDatabaseConnected } from './utils/database-connection.js';
 
 export default async function handler(req, res) {
   // CORS headers

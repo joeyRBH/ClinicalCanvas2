@@ -1,4 +1,4 @@
-const AWS = require('aws-sdk');
+import AWS from 'aws-sdk';
 
 // Initialize Backblaze B2 S3 client
 const getS3Client = () => {
@@ -154,7 +154,7 @@ const getDocumentMetadata = async (key) => {
   };
 };
 
-module.exports = {
+export {
   getS3Client,
   uploadDocument,
   downloadDocument,

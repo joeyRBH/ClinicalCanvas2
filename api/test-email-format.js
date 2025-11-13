@@ -1,5 +1,5 @@
 // Test email format handling
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   const allowedOrigin = process.env.APP_URL || req.headers.origin || '*';
   res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
