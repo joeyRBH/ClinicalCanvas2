@@ -1,9 +1,9 @@
 // Email and SMS Notification Utility
 // Handles AWS SES (email) and AWS SNS (SMS) integration
 
-const { Pool } = require('pg');
-const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
-const { SNSClient, PublishCommand } = require('@aws-sdk/client-sns');
+import { Pool } from 'pg';
+import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
+import { SNSClient, PublishCommand } from '@aws-sdk/client-sns';
 
 // Database connection pool
 let pool;
@@ -957,7 +957,7 @@ async function sendClientNotification(notificationData) {
     };
 }
 
-module.exports = {
+export {
     sendEmail,
     sendSMS,
     sendDualNotification,

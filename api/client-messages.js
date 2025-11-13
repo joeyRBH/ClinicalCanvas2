@@ -1,7 +1,7 @@
 // Client Messages API
 // Manages secure messaging between clients and practice
 
-const { initDatabase, executeQuery } = require('./utils/database-connection');
+import { initDatabase, executeQuery } from './utils/database-connection.js';
 
 // Helper function to verify session token
 async function verifySession(sessionToken) {

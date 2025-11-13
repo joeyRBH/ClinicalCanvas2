@@ -2,7 +2,7 @@
 // Proxy endpoint for generating clinical notes using Anthropic Claude API
 // This prevents CORS issues and keeps API key secure on server
 
-const { initDatabase, executeQuery } = require('./utils/database-connection');
+import { initDatabase, executeQuery } from './utils/database-connection.js';
 
 export default async function handler(req, res) {
   // CORS headers

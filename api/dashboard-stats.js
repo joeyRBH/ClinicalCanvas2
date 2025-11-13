@@ -1,7 +1,7 @@
 // Dashboard Statistics API
 // Provides real-time practice metrics and insights
 
-const { initDatabase, executeQuery } = require('./utils/database-connection');
+import { initDatabase, executeQuery } from './utils/database-connection.js';
 
 export default async function handler(req, res) {
   // CORS headers

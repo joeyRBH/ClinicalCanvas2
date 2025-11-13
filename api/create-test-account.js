@@ -1,6 +1,6 @@
 // Emergency test account creator - creates a test client portal account
-const { initDatabase, executeQuery } = require('./utils/database-connection');
-const bcrypt = require('bcrypt');
+import { initDatabase, executeQuery } from './utils/database-connection.js';
+import bcrypt from 'bcrypt';
 
 export default async function handler(req, res) {
   // CORS headers

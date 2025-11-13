@@ -1,8 +1,8 @@
 // Client Settings API
 // Manages client notification preferences and account settings
 
-const { initDatabase, executeQuery } = require('./utils/database-connection');
-const bcrypt = require('bcrypt');
+import { initDatabase, executeQuery } from './utils/database-connection.js';
+import bcrypt from 'bcrypt';
 
 // Helper function to verify session token
 async function verifySession(sessionToken) {

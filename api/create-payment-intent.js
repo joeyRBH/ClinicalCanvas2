@@ -34,7 +34,8 @@ export default async function handler(req, res) {
     }
 
     // Initialize Stripe with secret key from environment variables
-    const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+    const Stripe = (await import('stripe')).default;
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
     // Build payment intent parameters
     const paymentIntentParams = {

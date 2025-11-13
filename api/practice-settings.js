@@ -3,7 +3,7 @@
  * Manages practice/clinic information for invoice branding
  */
 
-const { Pool } = require('pg');
+import { Pool } from 'pg';
 
 // Database connection
 let pool;
@@ -17,7 +17,7 @@ function getPool() {
     return pool;
 }
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
     // Set CORS headers
     const allowedOrigin = process.env.APP_URL || req.headers.origin || '*';
   res.setHeader('Access-Control-Allow-Origin', allowedOrigin);

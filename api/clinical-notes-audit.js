@@ -1,7 +1,7 @@
 // Clinical Notes Audit Log API Endpoint
 // Retrieves audit log for clinical notes (HIPAA compliance)
 
-const { initDatabase, executeQuery } = require('./utils/database-connection');
+import { initDatabase, executeQuery } from './utils/database-connection.js';
 
 export default async function handler(req, res) {
   // CORS headers

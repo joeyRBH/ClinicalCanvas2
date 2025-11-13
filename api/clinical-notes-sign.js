@@ -1,7 +1,7 @@
 // Clinical Notes Sign API Endpoint
 // Handles signing and locking of clinical notes for HIPAA compliance
 
-const { initDatabase, executeQuery } = require('./utils/database-connection');
+import { initDatabase, executeQuery } from './utils/database-connection.js';
 
 export default async function handler(req, res) {
   // CORS headers

@@ -1,9 +1,12 @@
-const { initDatabase, getSqlClient } = require('./utils/database-connection');
+import Stripe from 'stripe';
+import { initDatabase, getSqlClient } from './utils/database-connection.js';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 // Payment Methods API Endpoint for Vercel
 // Manages saved payment methods (STORES ONLY STRIPE REFERENCES, NEVER CARD DATA)
 
 export default async function handler(req, res) {
-  const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
   
   // CORS headers
   res.setHeader('Access-Control-Allow-Credentials', true);

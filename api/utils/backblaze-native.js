@@ -113,7 +113,8 @@ const uploadDocument = async (clientId, documentId, fileName, fileData, contentT
   const key = `documents/${clientId}/${documentId}/${timestamp}_${sanitizedFileName}`;
 
   const buffer = Buffer.from(fileData, 'base64');
-  const sha1 = require('crypto').createHash('sha1').update(buffer).digest('hex');
+  const crypto = (await import('crypto')).default;
+  const sha1 = crypto.createHash('sha1').update(buffer).digest('hex');
 
   const response = await fetch(url, {
     method: 'POST',
@@ -273,7 +274,7 @@ const listDocuments = async (clientId, prefix = '') => {
   return documents;
 };
 
-module.exports = {
+export {
   uploadDocument,
   downloadDocument,
   deleteDocument,

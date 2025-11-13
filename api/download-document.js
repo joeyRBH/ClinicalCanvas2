@@ -1,6 +1,6 @@
-const { downloadDocument } = require('./utils/backblaze-native');
+import { downloadDocument } from './utils/backblaze-native.js';
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
   const allowedOrigin = process.env.APP_URL || req.headers.origin || '*';

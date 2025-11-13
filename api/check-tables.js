@@ -1,7 +1,7 @@
 // Check Database Tables API Endpoint
 // Lists all tables in the database
 
-const { initDatabase, executeQuery } = require('./utils/database-connection');
+import { initDatabase, executeQuery } from './utils/database-connection.js';
 
 export default async function handler(req, res) {
     // CORS headers

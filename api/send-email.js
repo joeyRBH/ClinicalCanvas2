@@ -1,7 +1,7 @@
 // AWS SES Email API Endpoint
-const { sendEmail } = require('./utils/notifications');
+import { sendEmail } from './utils/notifications.js';
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   // CORS headers
   const allowedOrigin = process.env.APP_URL || req.headers.origin || '*';
   res.setHeader('Access-Control-Allow-Origin', allowedOrigin);

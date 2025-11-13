@@ -1,10 +1,10 @@
 // Client Portal Quick Setup
 // Auto-creates client portal account from document access code
 
-const { initDatabase, executeQuery } = require('./utils/database-connection');
-const bcrypt = require('bcrypt');
-const crypto = require('crypto');
-const { sendEmail } = require('./utils/notifications');
+import { initDatabase, executeQuery } from './utils/database-connection.js';
+import bcrypt from 'bcrypt';
+import crypto from 'crypto';
+import { sendEmail } from './utils/notifications.js';
 
 export default async function handler(req, res) {
   // CORS headers

@@ -1,4 +1,5 @@
-const { initDatabase, getSqlClient } = require('./utils/database-connection');
+import { initDatabase, getSqlClient } from './utils/database-connection.js';
+
 // Payment Reports API Endpoint for Vercel
 // Generates payment history reports and analytics
 

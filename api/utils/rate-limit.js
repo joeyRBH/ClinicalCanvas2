@@ -238,7 +238,7 @@ function withRateLimit(handler, options = {}) {
   };
 }
 
-module.exports = {
+export {
   rateLimiter,
   createRateLimitMiddleware,
   withRateLimit,

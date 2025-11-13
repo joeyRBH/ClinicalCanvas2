@@ -1,10 +1,12 @@
 // Autopay API Endpoint for Vercel
 // Processes automated payments for invoices
 
-const { initDatabase, getSqlClient } = require('./utils/database-connection');
+import Stripe from 'stripe';
+import { initDatabase, getSqlClient } from './utils/database-connection.js';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(req, res) {
-  const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
   
   // CORS headers
   res.setHeader('Access-Control-Allow-Credentials', true);
