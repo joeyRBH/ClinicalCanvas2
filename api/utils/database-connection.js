@@ -1,6 +1,8 @@
 // Database Connection Utility
 // Manages PostgreSQL connection with Crunchy Bridge (or any PostgreSQL provider)
 
+import postgres from 'postgres';
+
 let sql = null;
 let isConnected = false;
 
@@ -21,9 +23,6 @@ async function initDatabase() {
   }
 
   try {
-    // Lazy load postgres client (only when DATABASE_URL is set)
-    const postgres = require('postgres');
-
     // Create connection with Crunchy Bridge optimized settings
     sql = postgres(process.env.DATABASE_URL, {
       // Connection pooling settings for Vercel serverless
@@ -165,7 +164,7 @@ async function closeDatabase() {
   }
 }
 
-module.exports = {
+export {
   initDatabase,
   executeQuery,
   executeTransaction,
