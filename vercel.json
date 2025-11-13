@@ -1,26 +1,16 @@
 {
   "version": 2,
   "name": "healthcanvas",
+  "cleanUrls": true,
+  "trailingSlash": false,
   "rewrites": [
     {
-      "source": "/app.js",
-      "destination": "/public/app.js"
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
     },
     {
-      "source": "/styles.css",
-      "destination": "/public/styles.css"
-    },
-    {
-      "source": "/database-setup.html",
-      "destination": "/public/database-setup.html"
-    },
-    {
-      "source": "/setup.html",
-      "destination": "/public/setup.html"
-    },
-    {
-      "source": "/",
-      "destination": "/public/index.html"
+      "source": "/(.*)",
+      "destination": "/public/$1"
     }
   ],
   "headers": [
